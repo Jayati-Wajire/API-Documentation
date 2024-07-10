@@ -3,7 +3,9 @@ info:
   title: Connections API
   version: 1.0.0
 servers:
-  - url: https://api.example.com/v1
+    url: https://virtserver.swaggerhub.com/CESAWALLMAGAZINE/Connections_trial/1.0.0
+
+  #####- url: https://api.example.com/v1
 paths:
   /connections:
     get:
