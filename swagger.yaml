@@ -3,9 +3,10 @@ info:
   title: BRAINCHAIN API Documentation
   version: 1.0.0
 servers:
-    - url: https://virtserver.swaggerhub.com/CESAWALLMAGAZINE/Connections_trial/1.0.0
-
-    - url: https://api.example.com/v1
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/CESAWALLMAGAZINE/Connections_trial/1.0.0
+  - url: https://api.example.com/v1
 paths:
   /connections:
     get:
