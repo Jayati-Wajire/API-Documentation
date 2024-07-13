@@ -12,6 +12,8 @@ paths:
     get:
       summary: Get Connections
       description: Retrieve a list of connections for the user.
+      tags:
+        - Connections
       parameters:
         - name: filter
           in: query
@@ -54,6 +56,8 @@ paths:
     get:
       summary: Get Connection Details
       description: Retrieve the details of a specific connection.
+      tags:
+        - Connections
       parameters:
         - name: connectionId
           in: path
@@ -93,6 +97,8 @@ paths:
     post:
       summary: Send Message to Connection
       description: Send a message to a connection.
+      tags:
+        - Connections
       parameters:
         - name: connectionId
           in: path
@@ -120,7 +126,6 @@ paths:
                     type: string
       security:
         - bearerAuth: []
-
 
   /deepconnects/filters:
     get:
@@ -240,6 +245,1224 @@ paths:
                       example: url_to_image
       security:
         - bearerAuth: []
+        
+  /deepconnects/filters/advanced:
+    get:
+      summary: Retrieve available advanced filter options for deep connects
+      operationId: getAdvancedFilterOptions
+      tags:
+        - Deep Connects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  browsesSimilarContent:
+                    type: object
+                    properties:
+                      min:
+                        type: integer
+                        example: 0
+                      max:
+                        type: integer
+                        example: 10
+                  psychometricCompatibility:
+                    type: object
+                    properties:
+                      min:
+                        type: integer
+                        example: 0
+                      max:
+                        type: integer
+                        example: 10
+                  hasConnectsIn:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Location1", "Location2", "Location3"]
+                  tiers:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Tier 1", "Tier 2", "Tier 3"]
+                  titles:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Title 1", "Title 2", "Title 3"]
+                  organizations:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Org 1", "Org 2", "Org 3"]
+                  interests:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Interest 1", "Interest 2", "Interest 3"]
+                  skills:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Skill 1", "Skill 2", "Skill 3"]
+      security:
+        - bearerAuth: []
+
+  /deepconnects/advanced:
+    post:
+      summary: Apply advanced filters to get deep connects based on the selected criteria
+      operationId: applyAdvancedFilters
+      tags:
+        - Deep Connects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                browsesSimilarContent:
+                  type: integer
+                  example: 7
+                psychometricCompatibility:
+                  type: integer
+                  example: 8
+                hasConnectsIn:
+                  type: array
+                  items:
+                    type: string
+                  example: ["Location1", "Location2"]
+                tier:
+                  type: string
+                  example: "Tier 2"
+                title:
+                  type: string
+                  example: "Title 1"
+                organization:
+                  type: string
+                  example: "Org 1"
+                interest:
+                  type: string
+                  example: "Interest 1"
+                skills:
+                  type: array
+                  items:
+                    type: string
+                  example: ["Skill 1", "Skill 2"]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: conn1
+                    name:
+                      type: string
+                      example: Satyam
+                    role:
+                      type: string
+                      example: UI/UX designer
+                    location:
+                      type: string
+                      example: Pune, MH
+                    age:
+                      type: string
+                      example: 45 Yrs
+                    skills:
+                      type: array
+                      items:
+                        type: string
+                      example: ["React JS", "Java"]
+                    level:
+                      type: integer
+                      example: 3
+                    profileImage:
+                      type: string
+                      example: url_to_image
+      security:
+        - bearerAuth: []
+        
+  /domains:
+    get:
+      summary: Get Available Domains
+      description: Retrieve a list of available domains for selection.
+      tags:
+        - Domain
+      parameters:
+        - name: search
+          in: query
+          description: Optional search query to filter domains by name.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: dom1
+                    name:
+                      type: string
+                      example: Software Developer
+      security:
+        - bearerAuth: []
+
+  /users/{userId}/domains:
+    post:
+      summary: Select Domains
+      description: Submit the selected domains for a user.
+      tags:
+        - Domain
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domains:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: dom1
+                      name:
+                        type: string
+                        example: Software Developer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Domains selected successfully.
+      security:
+        - bearerAuth: []
+
+  /connectiondomains:
+    get:
+      summary: Get Available Connection Domains
+      description: Retrieve a list of available connection domains for selection.
+      tags:
+        - Connections
+      parameters:
+        - name: search
+          in: query
+          description: Optional search query to filter connection domains by name.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: dom1
+                    name:
+                      type: string
+                      example: Software Development
+      security:
+        - bearerAuth: []
+
+  /users/{userId}/connectiondomains:
+    post:
+      summary: Select Connection Domains
+      description: Submit the selected connection domains for a user.
+      tags:
+        - Connections
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                connectionDomains:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: dom1
+                      name:
+                        type: string
+                        example: Software Development
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Connection domains selected successfully.
+      security:
+        - bearerAuth: []
+        
+  /locations:
+    get:
+      summary: Get Available Locations
+      description: Retrieve the list of available locations for selection.
+      tags:
+        - Location
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations:
+                    type: array
+                    items:
+                      type: string
+                      example: "Pune, MH"
+      security:
+        - bearerAuth: []
+
+  /locations/search:
+    get:
+      summary: Search Locations
+      description: Search for locations based on a query string.
+      tags:
+        - Location
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations:
+                    type: array
+                    items:
+                      type: string
+                      example: "Delhi, DL"
+      security:
+        - bearerAuth: []
+
+  /users/{userId}/locations:
+    put:
+      summary: Select Locations
+      description: Select specific locations for a user.
+      tags:
+        - Location
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                locations:
+                  type: array
+                  items:
+                    type: string
+                    example: "Pune, MH"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Locations updated successfully.
+      security:
+        - bearerAuth: []
+
+  /messages:
+    get:
+      summary: Get Messages
+      description: Retrieve a list of messages for the user.
+      tags:
+        - Messages
+      parameters:
+        - name: filter
+          in: query
+          description: Filter by message status (e.g., all, unread, read). Optional.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: msg1
+                    sender:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: Dev Patel
+                        profileImage:
+                          type: string
+                          example: url_to_image
+                        level:
+                          type: integer
+                          example: 2
+                    snippet:
+                      type: string
+                      example: What about that new jacket if I...
+                    timestamp:
+                      type: string
+                      format: date-time
+                      example: 2024-07-09T09:18:00Z
+                    status:
+                      type: string
+                      example: unread
+      security:
+        - bearerAuth: []
+
+  /messages/{messageId}:
+    get:
+      summary: Get Message Details
+      description: Retrieve the details of a specific message.
+      tags:
+        - Messages
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: msg1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: msg1
+                  sender:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Dev Patel
+                      profileImage:
+                        type: string
+                        example: url_to_image
+                      level:
+                        type: integer
+                        example: 2
+                  content:
+                    type: string
+                    example: What about that new jacket if I buy it online?
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: 2024-07-09T09:18:00Z
+                  status:
+                    type: string
+                    example: unread
+      security:
+        - bearerAuth: []
+
+    put:
+      summary: Update Message Status
+      description: Update the status of a message (mark as read).
+      tags:
+        - Messages
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: msg1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: read
+              required:
+                - status
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Message status updated successfully.
+      security:
+        - bearerAuth: []
+
+  /users/{userId}/professional:
+    get:
+      summary: Get Professional Profile
+      description: Retrieve the professional details of a user's profile.
+      tags:
+        - My Profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 12345
+                  name:
+                    type: string
+                    example: Satyam Mirgane
+                  age:
+                    type: integer
+                    example: 22
+                  role:
+                    type: string
+                    example: UI/UX designer
+                  location:
+                    type: string
+                    example: Pune
+                  education:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        institution:
+                          type: string
+                          example: PCCOE, Pune
+                        degree:
+                          type: string
+                          example: B.Tech Computer Engineering
+                        startYear:
+                          type: integer
+                          example: 2021
+                        endYear:
+                          type: integer
+                          example: 2025
+                  skills:
+                    type: array
+                    items:
+                      type: string
+                      example: React
+                  experience:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        company:
+                          type: string
+                          example: Brainchain
+                        role:
+                          type: string
+                          example: UI/UX designer
+                        startDate:
+                          type: string
+                          format: date
+                          example: 2023-06-02
+                        endDate:
+                          type: string
+                          format: date
+                          example: 2024-03-02
+      security:
+        - bearerAuth: []
+
+    put:
+      summary: Update Professional Profile
+      description: Update the professional details of a user's profile.
+      tags:
+        - My Profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Satyam Mirgane
+                age:
+                  type: integer
+                  example: 22
+                role:
+                  type: string
+                  example: UI/UX designer
+                location:
+                  type: string
+                  example: Pune
+                education:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      institution:
+                        type: string
+                        example: PCCOE, Pune
+                      degree:
+                        type: string
+                        example: B.Tech Computer Engineering
+                      startYear:
+                        type: integer
+                        example: 2021
+                      endYear:
+                        type: integer
+                        example: 2025
+                skills:
+                  type: array
+                  items:
+                    type: string
+                    example: React
+                experience:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      company:
+                        type: string
+                        example: Brainchain
+                      role:
+                        type: string
+                        example: UI/UX designer
+                      startDate:
+                        type: string
+                        format: date
+                        example: 2023-06-02
+                      endDate:
+                        type: string
+                        format: date
+                        example: 2024-03-02
+              required:
+                - name
+                - age
+                - role
+                - location
+                - education
+                - skills
+                - experience
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Professional profile updated successfully.
+      security:
+        - bearerAuth: []
+
+  /users/{userId}/skills:
+    get:
+      summary: Get User Skills
+      description: Retrieve the list of skills for a user.
+      tags:
+        - My Profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  skills:
+                    type: array
+                    items:
+                      type: string
+                      example: React
+      security:
+        - bearerAuth: []
+
+    post:
+      summary: Add a Skill
+      description: Add a new skill to the user's profile.
+      tags:
+        - My Profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                skill:
+                  type: string
+                  example: New Skill
+              required:
+                - skill
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Skill added successfully.
+      security:
+        - bearerAuth: []
+
+  /users/{userId}/experience/{experienceId}:
+    put:
+      summary: Update Experience
+      description: Update the details of a user's experience.
+      tags:
+        - My Profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+        - name: experienceId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company:
+                  type: string
+                  example: Updated Company
+                role:
+                  type: string
+                  example: Updated Role
+                startDate:
+                  type: string
+                  format: date
+                  example: 2023-06-02
+                endDate:
+                  type: string
+                  format: date
+                  example: 2024-03-02
+              required:
+                - company
+                - role
+                - startDate
+                - endDate
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Experience updated successfully.
+      security:
+        - bearerAuth: []
+
+  /organizations:
+    get:
+      summary: Get Available Organizations
+      description: Retrieve a list of available organizations for selection.
+      tags:
+        - Organization
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Optional search query to filter organizations by name.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: org1
+                    name:
+                      type: string
+                      example: Capgemini
+      security:
+        - bearerAuth: []
+
+  /users/{userId}/organizations:
+    post:
+      summary: Select Organizations
+      description: Submit the selected organizations for a user.
+      tags:
+        - Organization
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organizations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: org1
+                      name:
+                        type: string
+                        example: Capgemini
+              required:
+                - organizations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Organizations selected successfully.
+      security:
+        - bearerAuth: []
+        
+  /users/{userId}:
+    get:
+      summary: Get User Profile
+      description: Retrieve the details of a user's profile.
+      tags:
+        - Profiles
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "12345"
+                  name:
+                    type: string
+                    example: "Ajay"
+                  role:
+                    type: string
+                    example: "UI/UX designer"
+                  location:
+                    type: string
+                    example: "Pune"
+                  profileImage:
+                    type: string
+                    example: "url_to_image"
+                  bio:
+                    type: string
+                    example: "Alex Johnson is a passionate and innovative UI/UX Designer..."
+                  interests:
+                    type: array
+                    items:
+                      type: string
+                      example: "AIML"
+                  youtubeZNP:
+                    type: object
+                    additionalProperties:
+                      type: string
+                      example: "24 hrs"
+                  booksZNP:
+                    type: object
+                    additionalProperties:
+                      type: string
+                      example: "24 hrs"
+      security:
+        - bearerAuth: []
+
+    put:
+      summary: Update User Profile
+      description: Update the details of a user's profile.
+      tags:
+        - Profiles
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Ajay"
+                role:
+                  type: string
+                  example: "UI/UX designer"
+                location:
+                  type: string
+                  example: "Pune"
+                bio:
+                  type: string
+                  example: "Alex Johnson is a passionate and innovative UI/UX Designer..."
+                interests:
+                  type: array
+                  items:
+                    type: string
+                    example: "AIML"
+              required:
+                - name
+                - role
+                - location
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Profile updated successfully."
+      security:
+        - bearerAuth: []
+
+  /users/{userId}/interests:
+    get:
+      summary: Get User Interests
+      description: Retrieve the list of interests for a user.
+      tags:
+        - Profiles
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interests:
+                    type: array
+                    items:
+                      type: string
+                      example: "AIML"
+      security:
+        - bearerAuth: []
+
+  /users/{userId}/znp:
+    get:
+      summary: Get User ZNP Data
+      description: Retrieve the user's ZNP (Zero Notification Principle) data for YouTube and Books.
+      tags:
+        - Profiles
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 12345
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  youtubeZNP:
+                    type: object
+                    additionalProperties:
+                      type: string
+                      example: "24 hrs"
+                  booksZNP:
+                    type: object
+                    additionalProperties:
+                      type: string
+                      example: "24 hrs"
+      security:
+        - bearerAuth: []
+
+  /requests:
+    get:
+      summary: Get Requests
+      description: Retrieve a list of requests.
+      tags:
+        - Requests
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            type: string
+          description: Filter by category (e.g., tier, requestType, compatibility).
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "req1"
+                    name:
+                      type: string
+                      example: "Satyam"
+                    role:
+                      type: string
+                      example: "UI/UX designer"
+                    location:
+                      type: string
+                      example: "Pune, MH"
+                    compatibility:
+                      type: string
+                      example: "90%"
+                    age:
+                      type: string
+                      example: "25 Yrs"
+                    skills:
+                      type: array
+                      items:
+                        type: string
+                        example: "React JS"
+                    status:
+                      type: string
+                      example: "pending"
+                    message:
+                      type: string
+                      example: "Hi! How are u ?"
+      security:
+        - bearerAuth: []
+
+  /requests/{requestId}:
+    get:
+      summary: Get Request Details
+      description: Retrieve the details of a specific request.
+      tags:
+        - Requests
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: req1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "req1"
+                  name:
+                    type: string
+                    example: "Satyam"
+                  role:
+                    type: string
+                    example: "UI/UX designer"
+                  location:
+                    type: string
+                    example: "Pune, MH"
+                  compatibility:
+                    type: string
+                    example: "90%"
+                  age:
+                    type: string
+                    example: "25 Yrs"
+                  skills:
+                    type: array
+                    items:
+                      type: string
+                      example: "React JS"
+                  status:
+                    type: string
+                    example: "pending"
+                  message:
+                    type: string
+                    example: "Hi! How are u ?"
+      security:
+        - bearerAuth: []
+
+    put:
+      summary: Update Request Status
+      description: Update the status of a request (accept or reject).
+      tags:
+        - Requests
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: req1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: ["accepted", "rejected"]
+              required:
+                - status
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Request status updated successfully."
+      security:
+        - bearerAuth: []
 
 components:
   securitySchemes:
@@ -247,3 +1470,5 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      
+# Location2, deepconnects2 and location2 skipped. 
