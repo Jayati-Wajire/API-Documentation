@@ -121,13 +121,6 @@ paths:
       security:
         - bearerAuth: []
 
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
 
   /deepconnects/filters:
     get:
@@ -247,3 +240,10 @@ components:
                       example: url_to_image
       security:
         - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
