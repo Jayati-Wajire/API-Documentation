@@ -127,3 +127,123 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+
+  /deepconnects/filters:
+    get:
+      summary: Retrieve available filter options for deep connects
+      operationId: getFilterOptions
+      tags:
+        - Deep Connects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Pune, MH", "Hyderabad, TL"]
+                  purposes:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Internship", "Mentee", "Job"]
+                  domains:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Software Developer", "UI/UX Designer"]
+                  experiences:
+                    type: array
+                    items:
+                      type: string
+                    example: ["6-10 yrs", "10+ yrs", "20+ yrs"]
+                  educationLevels:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Bachelor's Degree", "Master's Degree", "PhD"]
+      security:
+        - bearerAuth: []
+  
+  /deepconnects:
+    post:
+      summary: Apply filters to get deep connects based on the selected criteria
+      operationId: applyFilters
+      tags:
+        - Deep Connects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  type: array
+                  items:
+                    type: string
+                  example: ["Pune, MH", "Hyderabad, TL"]
+                purpose:
+                  type: array
+                  items:
+                    type: string
+                  example: ["Internship", "Mentee", "Job"]
+                domain:
+                  type: array
+                  items:
+                    type: string
+                  example: ["Software Developer", "UI/UX Designer"]
+                experience:
+                  type: array
+                  items:
+                    type: string
+                  example: ["6-10 yrs", "10+ yrs", "20+ yrs"]
+                education:
+                  type: array
+                  items:
+                    type: string
+                  example: ["Bachelor's Degree", "Master's Degree", "PhD"]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: conn1
+                    name:
+                      type: string
+                      example: Satyam
+                    role:
+                      type: string
+                      example: UI/UX designer
+                    location:
+                      type: string
+                      example: Pune, MH
+                    age:
+                      type: string
+                      example: 45 Yrs
+                    skills:
+                      type: array
+                      items:
+                        type: string
+                      example: ["React JS", "Java"]
+                    level:
+                      type: integer
+                      example: 3
+                    profileImage:
+                      type: string
+                      example: url_to_image
+      security:
+        - bearerAuth: []
