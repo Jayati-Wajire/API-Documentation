@@ -769,6 +769,95 @@ paths:
         - bearerAuth: []
 
   /users/{userId}/professional:
+    put:
+      summary: Update Professional Profile
+      description: Update the professional details of a user's profile, including the bio.
+      tags:
+        - My Profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "12345"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Satyam Mirgane"
+                age:
+                  type: integer
+                  example: 22
+                role:
+                  type: string
+                  example: "UI/UX designer"
+                location:
+                  type: string
+                  example: "Pune"
+                bio:
+                  type: string
+                  example: "Alex Johnson is a passionate and innovative UI/UX Designer with over seven years of experience in creating user-centered designs for web and mobile applications. Alex specializes in designing..."
+                education:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      institution:
+                        type: string
+                        example: "PCCOE, Pune"
+                      degree:
+                        type: string
+                        example: "B.Tech Computer Engineering"
+                      startYear:
+                        type: integer
+                        example: 2021
+                      endYear:
+                        type: integer
+                        example: 2025
+                skills:
+                  type: array
+                  items:
+                    type: string
+                    example: "React"
+                experience:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      company:
+                        type: string
+                        example: "Brainchain"
+                      role:
+                        type: string
+                        example: "UI/UX designer"
+                      startDate:
+                        type: string
+                        format: date
+                        example: "2023-06-02"
+                      endDate:
+                        type: string
+                        format: date
+                        example: "2024-03-02"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Professional profile updated successfully."
+      security:
+        - bearerAuth: []
+
     get:
       summary: Get Professional Profile
       description: Retrieve the professional details of a user's profile.
@@ -780,7 +869,7 @@ paths:
           required: true
           schema:
             type: string
-          example: 12345
+          example: "12345"
       responses:
         '200':
           description: OK
@@ -791,19 +880,22 @@ paths:
                 properties:
                   id:
                     type: string
-                    example: 12345
+                    example: "12345"
                   name:
                     type: string
-                    example: Satyam Mirgane
+                    example: "Satyam Mirgane"
                   age:
                     type: integer
                     example: 22
                   role:
                     type: string
-                    example: UI/UX designer
+                    example: "UI/UX designer"
                   location:
                     type: string
-                    example: Pune
+                    example: "Pune"
+                  bio:
+                    type: string
+                    example: "Alex Johnson is a passionate and innovative UI/UX Designer with over seven years of experience in creating user-centered designs for web and mobile applications. Alex specializes in designing..."
                   education:
                     type: array
                     items:
@@ -811,10 +903,10 @@ paths:
                       properties:
                         institution:
                           type: string
-                          example: PCCOE, Pune
+                          example: "PCCOE, Pune"
                         degree:
                           type: string
-                          example: B.Tech Computer Engineering
+                          example: "B.Tech Computer Engineering"
                         startYear:
                           type: integer
                           example: 2021
@@ -825,7 +917,7 @@ paths:
                     type: array
                     items:
                       type: string
-                      example: React
+                      example: "React"
                   experience:
                     type: array
                     items:
@@ -833,114 +925,21 @@ paths:
                       properties:
                         company:
                           type: string
-                          example: Brainchain
+                          example: "Brainchain"
                         role:
                           type: string
-                          example: UI/UX designer
+                          example: "UI/UX designer"
                         startDate:
                           type: string
                           format: date
-                          example: 2023-06-02
+                          example: "2023-06-02"
                         endDate:
                           type: string
                           format: date
-                          example: 2024-03-02
+                          example: "2024-03-02"
       security:
         - bearerAuth: []
 
-    put:
-      summary: Update Professional Profile
-      description: Update the professional details of a user's profile.
-      tags:
-        - My Profile
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: 12345
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: Satyam Mirgane
-                age:
-                  type: integer
-                  example: 22
-                role:
-                  type: string
-                  example: UI/UX designer
-                location:
-                  type: string
-                  example: Pune
-                education:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      institution:
-                        type: string
-                        example: PCCOE, Pune
-                      degree:
-                        type: string
-                        example: B.Tech Computer Engineering
-                      startYear:
-                        type: integer
-                        example: 2021
-                      endYear:
-                        type: integer
-                        example: 2025
-                skills:
-                  type: array
-                  items:
-                    type: string
-                    example: React
-                experience:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      company:
-                        type: string
-                        example: Brainchain
-                      role:
-                        type: string
-                        example: UI/UX designer
-                      startDate:
-                        type: string
-                        format: date
-                        example: 2023-06-02
-                      endDate:
-                        type: string
-                        format: date
-                        example: 2024-03-02
-              required:
-                - name
-                - age
-                - role
-                - location
-                - education
-                - skills
-                - experience
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Professional profile updated successfully.
-      security:
-        - bearerAuth: []
 
   /users/{userId}/skills:
     get:
